@@ -186,43 +186,35 @@ tool. Check out our [more detailed explanation][gh-vs-hub] to learn more.
 
 ## Remote CLI Access via SSH
 
-### Installing and Configuring an SSH Server on the PC
+### Installing Docker
 
-1. **Install OpenSSH Server**:
-   - On Windows:
-     1. Open Settings.
-     2. Go to "Apps" > "Optional features".
-     3. Click "Add a feature".
-     4. Find and install "OpenSSH Server".
-   - On Linux (Debian-based):
-     ```sh
-     sudo apt update
-     sudo apt install openssh-server
-     ```
-   - On macOS:
-     ```sh
-     sudo systemsetup -setremotelogin on
-     ```
+1. **Install Docker**:
+   - Ensure Docker is installed on your PC. You can download it from Docker's official website.
 
-2. **Start and Enable the SSH Service**:
-   - On Windows:
+### Cloning the Repository
+
+1. **Clone the Repository**:
+   - Clone the repository `docfhsp/cli` to your local machine.
+
+### Setting Up the Development Container
+
+1. **Set Up the Dev Container**:
+   - Navigate to the repository directory and set up the development container using the `.devcontainer/devcontainer.json` file. This file specifies the Docker image and features required for the development environment.
+   - Run the following command to build and start the development container:
      ```sh
-     Start-Service sshd
-     Set-Service -Name sshd -StartupType 'Automatic'
-     ```
-   - On Linux:
-     ```sh
-     sudo systemctl start ssh
-     sudo systemctl enable ssh
+     docker-compose up -d
      ```
 
-3. **Configure the SSH Server**:
-   - Edit the SSH configuration file (`/etc/ssh/sshd_config` on Linux and macOS, `C:\ProgramData\ssh\sshd_config` on Windows) to ensure the following settings are enabled:
+### Configuring SSH
+
+1. **Configure SSH**:
+   - The `.devcontainer/devcontainer.json` file includes the SSHD feature, which sets up an SSH server in the container.
+   - Ensure you have SSH installed on your mobile phone. You can use apps like Termux (for Android) or any SSH client available for iOS.
+   - Connect to the SSH server running in the Docker container using the following command:
      ```sh
-     PermitRootLogin no
-     PasswordAuthentication yes
-     PubkeyAuthentication yes
+     ssh vscode@<your-pc-ip-address> -p <ssh-port>
      ```
+   - Replace `<your-pc-ip-address>` with the IP address of your PC and `<ssh-port>` with the port number configured for SSH in the container.
 
 ### Generating SSH Keys on the Mobile Phone
 
