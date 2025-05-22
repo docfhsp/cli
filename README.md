@@ -183,3 +183,125 @@ tool. Check out our [more detailed explanation][gh-vs-hub] to learn more.
 [gh-vs-hub]: ./docs/gh-vs-hub.md
 [build from source]: ./docs/source.md
 [intake-doc]: ./docs/working-with-us.md
+
+## Remote CLI Access via SSH
+
+### Installing and Configuring an SSH Server on the PC
+
+1. **Install OpenSSH Server**:
+   - On Windows:
+     1. Open Settings.
+     2. Go to "Apps" > "Optional features".
+     3. Click "Add a feature".
+     4. Find and install "OpenSSH Server".
+   - On Linux (Debian-based):
+     ```sh
+     sudo apt update
+     sudo apt install openssh-server
+     ```
+   - On macOS:
+     ```sh
+     sudo systemsetup -setremotelogin on
+     ```
+
+2. **Start and Enable the SSH Service**:
+   - On Windows:
+     ```sh
+     Start-Service sshd
+     Set-Service -Name sshd -StartupType 'Automatic'
+     ```
+   - On Linux:
+     ```sh
+     sudo systemctl start ssh
+     sudo systemctl enable ssh
+     ```
+
+3. **Configure the SSH Server**:
+   - Edit the SSH configuration file (`/etc/ssh/sshd_config` on Linux and macOS, `C:\ProgramData\ssh\sshd_config` on Windows) to ensure the following settings are enabled:
+     ```sh
+     PermitRootLogin no
+     PasswordAuthentication yes
+     PubkeyAuthentication yes
+     ```
+
+### Generating SSH Keys on the Mobile Phone
+
+1. **Install an SSH Client**:
+   - On Android, you can use Termux or JuiceSSH.
+   - On iOS, you can use apps like Blink Shell or Termius.
+
+2. **Generate SSH Keys**:
+   - Open the SSH client app and run the following command to generate a new SSH key pair:
+     ```sh
+     ssh-keygen -t rsa -b 2048
+     ```
+   - Follow the prompts to save the key pair. By default, it will be saved in `~/.ssh/id_rsa` and `~/.ssh/id_rsa.pub`.
+
+### Copying the Public Key to the PC
+
+1. **Copy the Public Key**:
+   - Display the public key using the following command:
+     ```sh
+     cat ~/.ssh/id_rsa.pub
+     ```
+   - Copy the displayed key to your clipboard.
+
+2. **Add the Public Key to the PC**:
+   - On the PC, open the `~/.ssh/authorized_keys` file (create it if it doesn't exist) and paste the copied public key into the file.
+   - Ensure the file has the correct permissions:
+     ```sh
+     chmod 600 ~/.ssh/authorized_keys
+     ```
+
+### Connecting to the PC's CLI from the Mobile Phone
+
+1. **Connect Using the SSH Client**:
+   - Open the SSH client app on your mobile phone.
+   - Use the following command to connect to your PC:
+     ```sh
+     ssh username@your_pc_ip_address
+     ```
+   - Replace `username` with your PC's username and `your_pc_ip_address` with the IP address of your PC.
+
+2. **Verify the Connection**:
+   - If prompted, accept the server's fingerprint.
+   - You should now have access to your PC's CLI from your mobile phone.
+
+### Using Termux on Android to Access SSH
+
+1. **Install Termux**:
+   - Download and install Termux from the Google Play Store or F-Droid.
+
+2. **Install OpenSSH in Termux**:
+   - Open Termux and run the following command to install OpenSSH:
+     ```sh
+     pkg install openssh
+     ```
+
+3. **Generate SSH Keys in Termux**:
+   - Run the following command to generate a new SSH key pair:
+     ```sh
+     ssh-keygen -t rsa -b 2048
+     ```
+   - Follow the prompts to save the key pair. By default, it will be saved in `~/.ssh/id_rsa` and `~/.ssh/id_rsa.pub`.
+
+4. **Copy the Public Key to the PC**:
+   - Display the public key using the following command:
+     ```sh
+     cat ~/.ssh/id_rsa.pub
+     ```
+   - Copy the displayed key to your clipboard.
+   - On the PC, open the `~/.ssh/authorized_keys` file (create it if it doesn't exist) and paste the copied public key into the file.
+   - Ensure the file has the correct permissions:
+     ```sh
+     chmod 600 ~/.ssh/authorized_keys
+     ```
+
+5. **Connect to the PC's CLI from Termux**:
+   - Use the following command to connect to your PC:
+     ```sh
+     ssh username@your_pc_ip_address
+     ```
+   - Replace `username` with your PC's username and `your_pc_ip_address` with the IP address of your PC.
+   - If prompted, accept the server's fingerprint.
+   - You should now have access to your PC's CLI from Termux on your Android mobile phone.
