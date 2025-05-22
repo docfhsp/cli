@@ -20,10 +20,5 @@
 		"--cap-add=SYS_PTRACE",
 		"--security-opt",
 		"seccomp=unconfined"
-  ],
-  "tasks": {
-    "test": "npm run test",
-    "build": "npm run build",
-    "launch": "npm run start"
-  }
+  ]
 }
